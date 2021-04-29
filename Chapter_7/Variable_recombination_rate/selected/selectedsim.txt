@@ -1,0 +1,111 @@
+// set up a simple neutral simulation
+initialize()
+{
+// set the overall mutation rate
+ initializeMutationRate(1e-7);
+// m1 mutation type: neutral
+ initializeMutationType("m1", 0.5, "f", 0.0);
+// m2 mutation type: beneficial
+ initializeMutationType("m2", 0.5, "f", 0.05); //to be introduced later
+// g1 genomic element type: uses m1 for all mutations
+ initializeGenomicElementType("g1", m1, 1.0);
+// uniform chromosome of length 1 Mb
+ initializeGenomicElement(g1, 0, 999999);
+// Variable recombination rate along the chromosome
+ lines = readFile("/home/ch19g17/Sim_for_variable_recombination_zalpha/recombinationRates.txt");
+ rates = NULL;
+ ends = NULL;
+ for (line in lines)
+ {
+  components = strsplit(line, "\t");
+  ends = c(ends, asInteger(components[0]));
+  rates = c(rates, asFloat(components[1]));
+ }
+ initializeRecombinationRate(rates, ends); 
+}
+
+// create a population of 10000 individuals
+1
+{
+defineConstant("simID", getSeed());
+sim.addSubpop("p1", 10000);
+p1.tag = 0;  //set up flag for if the mutation has got halfway to fixation yet
+}
+
+1000 late()
+{
+	// save the state of the simulation
+	sim.outputFull("/tmp/slim_" + simID + ".txt");
+
+	// add a beneficial mutation
+	target=sample(p1.genomes,1); //pick a random chromosome
+	target.addNewDrawnMutation(m2, 500000); //Add a beneficial mutation in the centre of the chromosome
+}
+// check if mutation fixed or been lost
+1000:10000 late() 
+{
+	mut = sim.mutationsOfType(m2);
+	if (size(sim.mutationFrequencies(NULL,mut)) ==1 )
+	{
+		if ((sim.mutationFrequencies(NULL,mut)>0.5) & (p1.tag == 0))
+		{
+			// remove mutations where the minor allele frequency is < 0.05
+			simMAF=sim;
+			muts=simMAF.mutations;
+			freqs=simMAF.mutationFrequencies(NULL,muts);
+			simMAF.subpopulations.genomes.removeMutations(muts[freqs<=0.05],F);
+
+			// output a sample of genomes
+			samp=sample(simMAF.subpopulations.genomes, 1000, F);
+			muts=sortBy(unique(samp.mutations),"position");
+			writeFile("outputMidPositions.txt",paste(muts.position, "\n"));
+			for (genome in samp)
+			{
+				hasMuts=(match(muts,genome.mutations) >=0);
+				writeFile("outputMid.txt",paste(asInteger(hasMuts), ""),append=T);
+			}
+			p1.tag = 1;
+		}	
+		if ((sim.mutationFrequencies(NULL,mut)>0.9))  // stop as almost reached fixation
+		{
+			// remove mutations where the minor allele frequency is < 0.05
+			simMAF=sim;
+			muts=simMAF.mutations;
+			freqs=simMAF.mutationFrequencies(NULL,muts);
+			simMAF.subpopulations.genomes.removeMutations(muts[freqs<=0.05],F);			
+
+			samp=sample(simMAF.subpopulations.genomes, 1000, F);
+			muts=sortBy(unique(samp.mutations),"position");
+			writeFile("outputEndPositions.txt",paste(muts.position, "\n"));
+			for (genome in samp)
+			{
+				hasMuts=(match(muts,genome.mutations) >=0);
+				writeFile("outputEnd.txt",paste(asInteger(hasMuts), ""),append=T);
+			}
+			cat(sim.generation + " 90% FIXED\n");
+			sim.simulationFinished();
+		}	
+		
+	}
+	
+	if (sim.countOfMutationsOfType(m2) == 0)
+	{
+		fixed = (sum(sim.substitutions.mutationType == m2) == 1);
+		if (fixed)   // should not happen!
+		{
+			cat(sim.generation + "FIXED\n");
+		}
+		else
+		{
+			cat(sim.generation + " LOST - restarting\n");
+			// go back to generation 1000
+			sim.readFromPopulationFile("/tmp/slim_" + simID + ".txt");
+			// start a newly seeded run
+			setSeed(rdunif(1, 0, asInteger(2^32) - 1));
+			// re-introduce the beneficial mutation
+			target = sample(p1.genomes, 1);
+			target.addNewDrawnMutation(m2, 500000);
+			p1.tag = 0;
+		}
+	}
+}

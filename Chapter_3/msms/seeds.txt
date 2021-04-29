@@ -1,0 +1,55 @@
+==> msmsNeutral.txt <==
+ms 100 100 -t 2000 -r 19999.96 500000  [3.2rc Build:162]
+0xebe0c2488ef69a3a
+
+==> msmsNeutralTree.txt <==
+ms 100 100 -t 2000 -r 19999.96 500000 -seed 0xebe0c2488ef69a3a -oTPi 0.02 0.0002  [3.2rc Build:162]
+0xebe0c2488ef69a3a
+
+==> msmsNeutralTreeL.txt <==
+ms 100 100 -t 2000 -r 19999.96 500000 -seed 0xebe0c2488ef69a3a -L  [3.2rc Build:162]
+0xebe0c2488ef69a3a
+
+==> msmsNeutralTreeT.txt <==
+ms 100 100 -t 2000 -r 19999.96 500000 -seed 0xebe0c2488ef69a3a -T  [3.2rc Build:162]
+0xebe0c2488ef69a3a
+
+==> msmsSelect.txt <==
+ms 100 100 -t 2000 -r 19999.96 500000 -N 1000000 -SAA 24000 -SAa 12000 -SF 0 0.9 -Sp 0.5  [3.2rc Build:162]
+0x3feee73ec45fce90
+
+==> msmsSelect2.txt <==
+ms 100 100 -t 2000 -r 19999.96 500000 -N 1000000 -SAA 24000 -SAa 12000 -SF 0.00005 1 -Sp 0.5  [3.2rc Build:162]
+0xf8086e5cf574027a
+
+==> msmsSelectP.txt <==
+ms 100 100 -t 2000 -r 19999.96 500000 -N 1000000 -SAA 24000 -SAa 12000 -SF 0 0.5 -Sp 0.5  [3.2rc Build:162]
+0x6c0db7a08ee8a468
+
+==> msmsSelectP3.txt <==
+ms 100 100 -t 2000 -r 19999.96 500000 -N 1000000 -SAA 24000 -SAa 12000 -SF 0 0.3 -Sp 0.5  [3.2rc Build:162]
+0x8bcfc4a50eeb843b
+
+==> msmsSelectTree.txt <==
+ms 100 100 -t 2000 -r 19999.96 500000 -N 1000000 -SAA 24000 -SAa 12000 -SF 0 0.9 -Sp 0.5 -seed 0x3feee73ec45fce90 -oTPi 0.02 0.0002  [3.2rc Build:162]
+0x3feee73ec45fce90
+
+==> msmsSelectTree2.txt <==
+ms 100 100 -t 2000 -r 19999.96 500000 -N 1000000 -SAA 24000 -SAa 12000 -SF 0.00005 1 -Sp 0.5 -seed 0xf8086e5cf574027a -oTPi 0.02 0.0002  [3.2rc Build:162]
+0xf8086e5cf574027a
+
+==> msmsSelectTreeP.txt <==
+ms 100 100 -t 2000 -r 19999.96 500000 -N 1000000 -SAA 24000 -SAa 12000 -SF 0 0.5 -Sp 0.5 -seed 0x6c0db7a08ee8a468 -oTPi 0.02 0.0002  [3.2rc Build:162]
+0x6c0db7a08ee8a468
+
+==> msmsSelectTreeP3.txt <==
+ms 100 100 -t 2000 -r 19999.96 500000 -N 1000000 -SAA 24000 -SAa 12000 -SF 0 0.3 -Sp 0.5 -seed 0x8bcfc4a50eeb843b -oTPi 0.02 0.0002  [3.2rc Build:162]
+0x8bcfc4a50eeb843b
+
+==> msmsSelectTreePL.txt <==
+ms 100 100 -t 2000 -r 19999.96 500000 -N 1000000 -SAA 24000 -SAa 12000 -SF 0 0.5 -Sp 0.5 -seed 0x6c0db7a08ee8a468 -L  [3.2rc Build:162]
+0x6c0db7a08ee8a468
+
+==> msmsSelectTreePT.txt <==
+ms 100 100 -t 2000 -r 19999.96 500000 -N 1000000 -SAA 24000 -SAa 12000 -SF 0 0.5 -Sp 0.5 -seed 0x6c0db7a08ee8a468 -T  [3.2rc Build:162]
+0x6c0db7a08ee8a468

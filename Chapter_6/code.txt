@@ -1,0 +1,17 @@
+baseSimulation.txt contains the code for SLiM
+createSimulationRuns.sh creates simGeneX.txt for each gene density X, based on the baseSimulation code
+baseSimQsub.sh contains the basic code to run SLiM given the gene density
+createSimQsubs.sh creates the instructions for the HPC simQsubGeneX.sh based on the baseSimQsub
+This code also sets SLiM running for each gene density
+seed.txt contains the seeds for the SLiM runs
+convertToTped.sh converts the resulting vcf files to tped format
+giveNames.sh gives each snp a name
+Xcp is the base code for running LDMAP
+createCPfiles makes cpX files for each gene density X based on Xcp
+baseRunLDMAP.sh is the base LDMAP code for running LDMAP
+createLDMAPQsubs.sh creates runLDMAPX.sh for each gene density X based on baseRunLDMAP, and runs LDMAP
+the output of this is GXmap for each gene density X
+createCSVfiles.xlsm converts GXmap to .csv format
+simLDMAP.R does the analysis and graphs
+
+

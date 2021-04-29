@@ -1,0 +1,44 @@
+// set up a gene dense simulation
+initialize()
+{
+
+ initializeMutationRate(1e-8); 				// overall mutation rate
+ initializeMutationType("m1", 0.5, "f", 0.0); 		// neutral mutation
+ initializeMutationType("m2", 0.5, "f", -0.03); 	// deleterious mutation
+ m2.convertToSubstitution = F;  			// stops mutation disappearing if fixed
+ initializeRecombinationRate(1e-8);			// overall recombination rate
+ initializeGenomicElementType("g1", c(m1,m2), c(2,8));  // Genes 
+ initializeGenomicElementType("g2", m1, 1);  		// Non-coding regions
+
+ //Sparse genes, region 10Mb
+ noGenesPerMb = GENESPERMB;				// genes per Mb
+ geneInterval = asInteger(round(1000000/noGenesPerMb));	// bp between genes
+ geneLength=10000;					// length of genes
+ base = asInteger(round(geneInterval/2));		// First gene starts here
+
+ initializeGenomicElement(g2,0,base-1);                  // First non-coding region
+
+ geneCount=0;
+ while (geneCount < noGenesPerMb*10-1) {
+	initializeGenomicElement(g1,base,base+geneLength-1);
+	geneCount=geneCount+1;
+	initializeGenomicElement(g2,base+geneLength,base+geneInterval-1);
+	base=base+geneInterval;
+ }
+
+ // last gene
+ initializeGenomicElement(g1,base,base+geneLength-1);
+ initializeGenomicElement(g2,base+geneLength,9999999);
+
+}
+
+// create a population of 10000 individuals
+1
+{
+sim.addSubpop("p1", 10000);
+}
+// run to generation 5000
+5000 late()
+{
+p1.outputVCFSample(100, filePath="OUTPUTFILENAME.vcf");
+}
