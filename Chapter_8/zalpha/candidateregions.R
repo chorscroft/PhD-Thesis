@@ -36,6 +36,13 @@ seqlevelsStyle(edb) <- "UCSC"
 
 
 plotRegion<-function(chrom,bplow,bphigh,folder){
+  #set colour of title panels
+  scheme<-getScheme()
+  scheme$GdObject$background.title="darkgrey"
+  addScheme(scheme, "myScheme")
+  options(Gviz.scheme="myScheme")
+  getOption("Gviz.scheme")
+  
   #get y limits
   Zroe_ylim<-c(min(merged$Zroe),max(merged$Zroe))
   Zb_ylim<-c(min(merged$Zb),max(merged$Zb))
